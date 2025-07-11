@@ -1,0 +1,73 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding: 20px;
+  box-sizing: border-box;
+  background: #f0f0f0;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#game-container {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  gap: 10px;
+  width: 100%;
+  min-height: 0; /* 이게 중요합니다! flex 자식에서 overflow, 높이 문제 예방 */
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: #333;
+  color: white;
+  font-size: 18px;
+}
+
+.card {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.1);
+  border-color: #00aaff;
+}
+
+#game-over {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#game-over.hidden {
+  display: none;
+}

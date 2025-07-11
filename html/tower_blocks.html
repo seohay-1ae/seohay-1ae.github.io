@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta name="viewport" content="width=device-width,user-scalable=no">
+  <title>타워블록</title>
+  <link rel="stylesheet" href="../css/tower_blocks.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="game"></div>
+    <div id="score">0</div>
+    <div id="instructions">Click (or press the spacebar) to place the block</div>
+    <div class="game-over">
+      <h2>Game Over</h2>
+      <p>You did great, you're the best.</p>
+      <p>Click or spacebar to start again</p>
+    </div>
+    <div class="game-ready">
+      <div id="start-button">Start</div>
+      <div></div>
+    </div>
+  </div>
+  <script src="../js/tower_blocks.js"></script>
+</body>
+</html>

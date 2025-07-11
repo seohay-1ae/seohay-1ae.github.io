@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>틀린그림 찾기</title>
+    <link rel="stylesheet" href="../css/different_card.css" />
+  </head>
+  <body>
+    <div class="header">
+      <div id="stage-info">Stage: 1</div>
+      <div id="timer">Time: 10s</div>
+    </div>
+
+    <div id="game-container"></div>
+
+    <div id="game-over" class="hidden">
+      <h1>Game Over!</h1>
+      <p id="final-stage"></p>
+      <button onclick="location.reload()">Restart</button>
+    </div>
+    <div id="stage-transition" class="stage-transition hidden">Stage 1</div>
+
+    <script src="../js/different_card.js"></script>
+  </body>
+</html>
