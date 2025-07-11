@@ -1,0 +1,188 @@
+body {
+  font-family: "Noto Sans KR", sans-serif;
+  width: 600px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #7b0f0f; /* 전체 배경: 짙은 카지노 테이블 빨강 */
+  color: #f0e6d2; /* 기본 글자색 */
+  text-align: center;
+  user-select: none;
+  /* box-shadow: inset 0 0 30px #3e0000; */
+}
+
+/* credit-info 테이블 영역은 기존 빨강 배경 유지 */
+#credit-info {
+  margin-bottom: 25px;
+}
+
+#credit-info table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 1.1rem;
+  background-color: #bdbdbd;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  color: #000000;
+}
+
+/* 게임 영역 전체 회색 배경 박스 */
+.game-area {
+  background-color: #d3d3d3; /* 연한 회색 */
+  color: #111; /* 진한 글자색 */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: inset 0 0 15px #a0a0a0;
+}
+
+.hands {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+#status {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  min-height: 24px;
+  font-weight: 600;
+  text-shadow: none;
+  background-color: transparent;
+  color: inherit;
+  padding: 8px 0;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.button-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.credit-change-message {
+  height: 20px;
+  color: red;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  margin-top: 4px;
+  font-size: 14px;
+  min-width: 40px; /* 메시지 길이 짧아도 버튼 아래에서 중앙정렬 유지 */
+  text-align: center;
+}
+
+/* 카드 스타일 */
+.cards {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.card {
+  display: inline-block;
+  width: 50px;
+  height: 70px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 70px;
+  font-weight: bold;
+  font-size: 20px;
+  margin-right: 5px;
+  user-select: none;
+  background: white;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.red {
+  color: red;
+}
+
+.black {
+  color: black;
+}
+
+.card-back {
+  background: #333;
+  color: #fff;
+  font-size: 30px;
+}
+
+/* 버튼 기본 스타일 */
+.buttons button {
+  padding: 10px 20px;
+  margin: 0 8px 10px 8px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background-color 0.3s, box-shadow 0.2s;
+}
+
+/* 버튼 hover */
+.buttons button:hover:not(:disabled) {
+  background-color: #ef5350;
+  box-shadow: 0 6px 0 #7b0f0f;
+}
+
+/* 버튼 disabled 상태 (공통) */
+.buttons button:disabled {
+  background-color: #3a3a3a; /* 짙은 회색 */
+  box-shadow: none;
+  cursor: not-allowed;
+  color: #888888;
+}
+
+/* 각 버튼 기본 색상 */
+#start-btn {
+  background-color: #22964f;
+  color: #f0e6d2;
+  box-shadow: 0 4px 0 #0b5f2b;
+}
+#hit-btn {
+  background-color: #8acfd2;
+  color: #000000;
+  box-shadow: 0 4px 0 #428587;
+}
+#double-btn {
+  background-color: #8acfd2;
+  color: #000000;
+  box-shadow: 0 4px 0 #428587;
+}
+#stand-btn {
+  background-color: #22964f;
+  color: #f0e6d2;
+  box-shadow: 0 4px 0 #0b5f2b;
+}
+
+/* disabled 상태 각 버튼 별 덮어쓰기 (선택사항) */
+#start-btn:disabled,
+#hit-btn:disabled,
+#double-btn:disabled,
+#stand-btn:disabled {
+  background-color: #5b5b5b;
+  color: #ccc;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* 내 크레딧 숫자 */
+#credits {
+  color: green;
+  font-weight: bold;
+}
+
+/* 획득 크레딧 메시지 (status 영역) */
+#status {
+  color: green;
+  font-weight: bold;
+}

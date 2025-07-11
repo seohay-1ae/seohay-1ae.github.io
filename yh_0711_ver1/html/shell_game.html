@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>야바위</title>
+    <link rel="stylesheet" href="../css/shell_game.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  </head>
+  <body>
+    <!-- 크레딧 표시 -->
+    <div id="credit">크레딧: 30</div>
+
+    <!-- 게임 정보 테이블 -->
+    <table id="info-table">
+      <thead>
+        <tr>
+          <th>항목</th>
+          <th>값</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>소모 크레딧</td>
+          <td>-5</td>
+        </tr>
+        <tr>
+          <td>승리 보상</td>
+          <td>+10</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 게임 보드 -->
+    <div id="board"></div>
+
+    <!-- 결과 메시지 -->
+    <div id="result-message"></div>
+
+    <!-- 시작 버튼 -->
+    <footer>
+      <div id="start">START</div>
+    </footer>
+
+    <!-- 게임 로직 JS -->
+  </body>
+  <script src="../js/shell_game.js"></script>
+</html>

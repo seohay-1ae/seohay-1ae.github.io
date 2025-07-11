@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>수박게임</title>
+    <link rel="stylesheet" href="../css/suika.css" />
+  </head>
+  <body>
+    <div
+      id="score-display"
+      style="
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        color: rgb(0, 0, 0);
+        font-size: 24px;
+        font-weight: bold;
+        z-index: 3000;
+      "
+    >
+      점수: 0
+    </div>
+
+    <div id="game-container">
+      <div id="game-area">
+        <div id="game-out-line"></div>
+        <!-- 게임아웃 라인 -->
+      </div>
+      <div id="next-fruit"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.18.0/matter.min.js"></script>
+    <script src="../js/suika_game.js"></script>
+  </body>
+</html>

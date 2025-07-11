@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>블랙잭 게임 (더블다운 포함)</title>
+    <link rel="stylesheet" href="../css/blackjack.css" />
+  </head>
+  <body>
+    <div class="game-area">
+      <h1>블랙잭 게임</h1>
+
+      <div id="credit-info">
+        <table>
+          <tr>
+            <th>크레딧</th>
+            <td id="credits">30</td>
+          </tr>
+          <tr>
+            <th>베팅 금액</th>
+            <td id="bet-credit">5</td>
+          </tr>
+          <tr>
+            <th>승리 시 획득</th>
+            <td id="win-credit">10</td>
+          </tr>
+          <tr>
+            <th>무승부 시 획득</th>
+            <td id="tie-credit">5</td>
+          </tr>
+          <tr>
+            <th>더블다운 시 획득</th>
+            <td id="double-win-credit">20</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="hands">
+        <div>
+          <h2>딜러 카드</h2>
+          <div id="dealer-cards" class="cards"></div>
+          <div>합계: <span id="dealer-total">0</span></div>
+        </div>
+
+        <div>
+          <h2>플레이어 카드</h2>
+          <div id="player-cards" class="cards"></div>
+          <div>합계: <span id="player-total">0</span></div>
+        </div>
+      </div>
+
+      <div id="status"></div>
+
+      <div class="buttons">
+        <div class="button-wrapper">
+          <button id="start-btn">게임 시작</button>
+          <div id="start-credit-change" class="credit-change-message"></div>
+        </div>
+        <div class="button-wrapper">
+          <button id="hit-btn" disabled>히트</button>
+          <div id="hit-credit-change" class="credit-change-message"></div>
+        </div>
+        <div class="button-wrapper">
+          <button id="double-btn" disabled>더블 다운</button>
+          <div id="double-credit-change" class="credit-change-message"></div>
+        </div>
+        <div class="button-wrapper">
+          <button id="stand-btn" disabled>스탠드</button>
+          <div id="stand-credit-change" class="credit-change-message"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/blackjack.js"></script>
+  </body>
+</html>

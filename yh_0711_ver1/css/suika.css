@@ -1,0 +1,81 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* background: linear-gradient(to bottom right, #ffd700, #ff6347); */
+  font-family: Arial, sans-serif;
+}
+#game-container {
+  width: 400px;
+  height: 600px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  /* overflow: hidden; */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+#game-area {
+  width: 100%;
+  height: 600px;
+  position: relative;
+}
+#game-out-line {
+  position: absolute;
+  top: 0; /* y = 0이 ‘천장’ */
+  left: 0;
+  width: 100%;
+  height: 2px; /* 선 두께 */
+  background: red; /* 눈에 잘 띄는 색 */
+  pointer-events: none; /* 마우스 이벤트 통과 */
+  z-index: 1000; /* 과일 위에 보이도록 */
+}
+#next-fruit {
+  width: 100%;
+  height: 100px;
+  background-color: rgb(138, 138, 138);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* 덮어씌움 방지 */
+}
+.fruit {
+  position: absolute;
+  border-radius: 50%;
+  overflow: hidden; /* ✅ 배경색과 이미지 안넘치게 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+#controls {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+}
+
+#fullscreenBtn {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: none;
+  color: rgba(255, 255, 255, 1);
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 0px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: rgba(0, 0, 30, 0.8);
+    color: rgba(255, 255, 0, 1);
+  }
+}

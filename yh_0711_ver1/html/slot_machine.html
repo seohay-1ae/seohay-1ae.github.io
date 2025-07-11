@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <title>배율별 확률 슬롯머신</title>
+        <style>
+            html,
+            body {
+                height: 100%;
+                margin: 0;
+            }
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                padding: 20px;
+                font-family: Arial, sans-serif;
+                background: #f0f0f0;
+                max-width: 650px;
+                margin: 0 auto;
+                box-sizing: border-box;
+            }
+            #slot-machine {
+                display: flex;
+                gap: 10px;
+                margin: 20px 0;
+            }
+            .slot {
+                width: 80px;
+                height: 80px;
+                border: 3px solid #333;
+                border-radius: 10px;
+                overflow: hidden;
+                background: #eee;
+            }
+            .slot img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+            #slot-trigger {
+                padding: 15px 40px;
+                font-size: 20px;
+                cursor: pointer;
+                border: none;
+                border-radius: 10px;
+                background-color: #28a745;
+                color: white;
+                margin-bottom: 20px;
+            }
+            #slot-trigger:disabled {
+                background-color: #aaa;
+                cursor: default;
+            }
+            #slot-credits {
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+            #bet-container {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                font-weight: bold;
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+            table {
+                border-collapse: collapse;
+                margin-top: 20px;
+                font-size: 14px;
+                background: white;
+            }
+            th,
+            td {
+                border: 1px solid #ccc;
+                padding: 8px 10px;
+                text-align: center;
+            }
+            th {
+                background-color: #ddd;
+            }
+            tbody tr.highlight {
+                background-color: #fff9c4;
+                animation: pulse 2s ease-in-out;
+            }
+            @keyframes pulse {
+                0% {
+                    background-color: #fff9c4;
+                }
+                50% {
+                    background-color: #ffeb3b;
+                }
+                100% {
+                    background-color: #fff9c4;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="bet-container">
+            <span>배팅 배율:</span>
+            <label><input type="radio" name="bet" value="1" checked /> x1</label>
+            <label><input type="radio" name="bet" value="5" /> x5</label>
+            <label><input type="radio" name="bet" value="10" /> x10</label>
+        </div>
+
+        <div id="slot-machine">
+            <div class="slot">
+                <img id="wheel1" src="../static/images/suika/duri.png" alt="slot1" />
+            </div>
+            <div class="slot">
+                <img id="wheel2" src="../static/images/suika/duri.png" alt="slot2" />
+            </div>
+            <div class="slot">
+                <img id="wheel3" src="../static/images/suika/duri.png" alt="slot3" />
+            </div>
+        </div>
+
+        <button id="slot-trigger">Spin!</button>
+        <div id="slot-credits">Credits: 15</div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>조합 조건</th>
+                    <th>보상 배율</th>
+                    <th>x1 확률</th>
+                    <th>x5 확률</th>
+                    <th>x10 확률</th>
+                    <th>설명</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="row-duri3">
+                    <td>duri 3장 (잭팟)</td>
+                    <td>x100</td>
+                    <td>0.2%</td>
+                    <td>0.1%</td>
+                    <td>0.05%</td>
+                    <td>고배율일수록 당첨 어려움</td>
+                </tr>
+                <tr id="row-duri2">
+                    <td>duri 2장</td>
+                    <td>x10</td>
+                    <td>4%</td>
+                    <td>2%</td>
+                    <td>1%</td>
+                    <td>희귀 보상</td>
+                </tr>
+                <tr id="row-normal3">
+                    <td>일반 3장</td>
+                    <td>x5</td>
+                    <td>10%</td>
+                    <td>8%</td>
+                    <td>5%</td>
+                    <td>중간 보상</td>
+                </tr>
+                <tr id="row-normal2">
+                    <td>일반 2장</td>
+                    <td>x1</td>
+                    <td>50%</td>
+                    <td>40%</td>
+                    <td>30%</td>
+                    <td>자주 나옴</td>
+                </tr>
+                <tr id="row-lose">
+                    <td>모두 다름 (꽝)</td>
+                    <td>x0</td>
+                    <td>35.8%</td>
+                    <td>49.9%</td>
+                    <td>63.95%</td>
+                    <td>나머지 확률</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(function () {
+                let credits = 15;
+                let spinning = false;
+
+                const allSymbols = [
+                    "duri",
+                    "chunggyo",
+                    "dongwook",
+                    "jeongmin",
+                    "youngbum",
+                    "soyun",
+                    "younggeon-with-teacher",
+                    "younggeon-side",
+                    "younggeon-front",
+                    "teacher",
+                ];
+
+                const outcomeProbabilitiesTable = {
+                    1: [
+                        { type: "duri3", prob: 0.002 },
+                        { type: "duri2", prob: 0.04 },
+                        { type: "normal3", prob: 0.1 },
+                        { type: "normal2", prob: 0.5 },
+                        { type: "lose", prob: 0.358 },
+                    ],
+                    5: [
+                        { type: "duri3", prob: 0.001 },
+                        { type: "duri2", prob: 0.02 },
+                        { type: "normal3", prob: 0.08 },
+                        { type: "normal2", prob: 0.4 },
+                        { type: "lose", prob: 0.499 },
+                    ],
+                    10: [
+                        { type: "duri3", prob: 0.0005 },
+                        { type: "duri2", prob: 0.01 },
+                        { type: "normal3", prob: 0.05 },
+                        { type: "normal2", prob: 0.3 },
+                        { type: "lose", prob: 0.6395 },
+                    ],
+                };
+
+                // 크레딧 업데이트
+                function updateCredits(delta) {
+                    credits += delta;
+                    if (credits < 0) credits = 0;
+                    $("#slot-credits").text("Credits: " + credits);
+                }
+
+                function getBetMultiplier() {
+                    return Number($("input[name='bet']:checked").val());
+                }
+
+                // 당첨 타입 랜덤 추출 (누적 확률)
+                function getRandomOutcome(betMultiplier) {
+                    const outcomes = outcomeProbabilitiesTable[betMultiplier];
+                    const r = Math.random();
+                    let sum = 0;
+                    for (const outcome of outcomes) {
+                        sum += outcome.prob;
+                        if (r < sum) {
+                            return outcome.type;
+                        }
+                    }
+                    return "lose";
+                }
+
+                // 테이블 하이라이트 함수
+                function highlightTableRow(outcomeType) {
+                    // 모든 행의 하이라이트 제거
+                    $("tbody tr").removeClass("highlight");
+
+                    // 해당 결과의 행에 하이라이트 추가
+                    const targetRow = $("#row-" + outcomeType);
+                    if (targetRow.length) {
+                        targetRow.addClass("highlight");
+                    }
+                }
+
+                // 당첨 타입별 심볼 세팅
+                function setSymbolsForOutcome(type) {
+                    switch (type) {
+                        case "duri3":
+                            return ["duri", "duri", "duri"];
+                        case "duri2": {
+                            // duri 2장 + 1장 일반 심볼
+                            const normalSymbols = allSymbols.filter((s) => s !== "duri");
+                            const normal = normalSymbols[Math.floor(Math.random() * normalSymbols.length)];
+                            // 섞어서 리턴
+                            return shuffleArray(["duri", "duri", normal]);
+                        }
+                        case "normal3": {
+                            // 일반 심볼 3장 동일
+                            const normalSymbols = allSymbols.filter((s) => s !== "duri");
+                            const sym = normalSymbols[Math.floor(Math.random() * normalSymbols.length)];
+                            return [sym, sym, sym];
+                        }
+                        case "normal2": {
+                            // 일반 심볼 2장 + 1장 다른 심볼 (꽝 제외)
+                            const normalSymbols = allSymbols.filter((s) => s !== "duri");
+                            const sym1 = normalSymbols[Math.floor(Math.random() * normalSymbols.length)];
+                            let sym2;
+                            do {
+                                sym2 = normalSymbols[Math.floor(Math.random() * normalSymbols.length)];
+                            } while (sym2 === sym1);
+                            const arr = [sym1, sym1, sym2];
+                            return shuffleArray(arr);
+                        }
+                        case "lose":
+                        default: {
+                            // 모두 다름 (꽝)
+                            const symbols = [];
+                            while (symbols.length < 3) {
+                                const sym = allSymbols[Math.floor(Math.random() * allSymbols.length)];
+                                if (!symbols.includes(sym)) {
+                                    symbols.push(sym);
+                                }
+                            }
+                            return symbols;
+                        }
+                    }
+                }
+
+                // 배열 셔플 함수
+                function shuffleArray(arr) {
+                    for (let i = arr.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [arr[i], arr[j]] = [arr[j], arr[i]];
+                    }
+                    return arr;
+                }
+
+                // 슬롯 애니메이션 (간단)
+                function spinAnimation(symbols, callback) {
+                    const spinTimes = 25;
+                    let count = 0;
+
+                    const interval = setInterval(() => {
+                        const randomSymbols = [
+                            allSymbols[Math.floor(Math.random() * allSymbols.length)],
+                            allSymbols[Math.floor(Math.random() * allSymbols.length)],
+                            allSymbols[Math.floor(Math.random() * allSymbols.length)],
+                        ];
+                        for (let i = 0; i < 3; i++) {
+                            $("#wheel" + (i + 1)).attr("src", "../static/images/suika/" + randomSymbols[i] + ".png");
+                        }
+                        count++;
+                        if (count >= spinTimes) {
+                            clearInterval(interval);
+                            // 최종 심볼 세팅
+                            for (let i = 0; i < 3; i++) {
+                                $("#wheel" + (i + 1)).attr("src", "../static/images/suika/" + symbols[i] + ".png");
+                            }
+                            // 렌더링을 위해 짧은 딜레이 후 콜백 호출
+                            setTimeout(callback, 100);
+                        }
+                    }, 60); // 딜레이를 80에서 60으로 줄여서 전체 시간은 더 길면서도 부드럽게
+                }
+
+                $("#slot-trigger").on("click", function () {
+                    if (spinning) return;
+
+                    const betMultiplier = getBetMultiplier();
+                    if (credits < betMultiplier) {
+                        alert("크레딧이 부족합니다!");
+                        return;
+                    }
+
+                    spinning = true;
+                    updateCredits(-betMultiplier);
+                    $("#slot-trigger").prop("disabled", true);
+
+                    const outcomeType = getRandomOutcome(betMultiplier);
+                    const symbols = setSymbolsForOutcome(outcomeType);
+
+                    spinAnimation(
+                        symbols,
+                        () => {
+                            // 테이블 하이라이트 추가
+                            highlightTableRow(outcomeType);
+
+                            // 브라우저가 화면을 새로 그리도록 강제
+                            requestAnimationFrame(() => {
+                                requestAnimationFrame(() => {
+                                    // 보상 처리
+                                    let message;
+                                    let creditsWon = 0;
+
+                                    switch (outcomeType) {
+                                        case "duri3":
+                                            creditsWon = 100 * betMultiplier;
+                                            message = `🎉 잭팟!! duri 3개!! ${creditsWon} 크레딧!`;
+                                            break;
+                                        case "duri2":
+                                            creditsWon = 10 * betMultiplier;
+                                            message = `✨ duri 2장! ${creditsWon} 크레딧!`;
+                                            break;
+                                        case "normal3":
+                                            creditsWon = 5 * betMultiplier;
+                                            message = `🔥 일반 심볼 3장! ${creditsWon} 크레딧!`;
+                                            break;
+                                        case "normal2":
+                                            creditsWon = 1 * betMultiplier;
+                                            message = `😊 일반 이미지 2장! 사용 크레딧 환급 (${creditsWon})`;
+                                            break;
+                                        case "lose":
+                                        default:
+                                            message = "😢 아쉽네요. 다시 도전하세요!";
+                                            break;
+                                    }
+
+                                    // alert를 표시합니다.
+                                    alert(message);
+
+                                    // 사용자가 '확인'을 누르면 아래 코드가 실행됩니다.
+                                    $("tbody tr").removeClass("highlight"); // 하이라이트 제거
+                                    updateCredits(creditsWon);
+
+                                    spinning = false;
+                                    $("#slot-trigger").prop("disabled", false);
+                                });
+                            });
+                        },
+                        500
+                    );
+                });
+            });
+        </script>
+    </body>
+</html>
